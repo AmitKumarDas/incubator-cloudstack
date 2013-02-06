@@ -16,6 +16,8 @@
 // under the License.
 package org.apache.cloudstack.utils.qemu;
 
+import org.apache.cloudstack.utils.qemu.QemuImgFile;
+
 import com.cloud.utils.script.Script;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.Map;
 public class QemuImg {
 
     /* The qemu-img binary. We expect this to be in $PATH */
-    public static String _qemuImgPath = "qemu-img";
+    public String _qemuImgPath = "qemu-img";
 
     /* Shouldn't we have KVMPhysicalDisk and LibvirtVMDef read this? */
     public static enum PhysicalDiskFormat {
@@ -40,62 +42,66 @@ public class QemuImg {
         }
     }
 
+    public QemuImg() {
+
+    }
+
+    public QemuImg(String qemuImgPath) {
+        this._qemuImgPath = qemuImgPath;
+    }
+
     /* These are all methods supported by the qemu-img tool */
 
     /* Perform a consistency check on the disk image */
-    public static void check() {
+    public void check(QemuImgFile file) {
 
     }
 
     /* Create a new disk image */
-    public static void create(String filename, long size, PhysicalDiskFormat format, List<Map<String, String>> options) {
+    public void create(QemuImgFile file, List<Map<String, String>> options) {
         Script s = new Script(_qemuImgPath);
         s.add("create");
         s.add("-f");
-        s.add(format.toString());
-        s.add(filename);
-        s.add(Long.toString(size));
+        s.add(file.getFormat().toString());
+        s.add(file.getFileName());
+        s.add(Long.toString(file.getSize()));
     }
 
-    public static void create(String filename, long size, PhysicalDiskFormat format) {
-        QemuImg.create(filename, size, format, null);
+    public void create(QemuImgFile file) {
+        this.create(file, null);
     }
 
     /* Convert the disk image filename or a snapshot snapshot_name to disk image output_filename using format output_fmt. */
-    public static void convert() {
+    public void convert(QemuImgFile srcFile, QemuImgFile destFile, List<Map<String, String>> options) {
 
+    }
+
+    public void convert(QemuImgFile srcFile, QemuImgFile destFile) {
+        this.convert(srcFile, destFile, null);
     }
 
     /* Commit the changes recorded in filename in its base image */
-    public static void commit(String filename, PhysicalDiskFormat format) {
+    public void commit(QemuImgFile file) {
 
-    }
-
-    public static void commit(String filename) {
-        QemuImg.commit(filename, null);
     }
 
     /* Give information about the disk image */
-    public static void info(String filename, PhysicalDiskFormat format) {
+    public void info(QemuImgFile file) {
 
-    }
-
-    public static void info(String filename) {
-        QemuImg.info(filename, null);
     }
 
     /* List, apply, create or delete snapshots in image */
-    public static void snapshot() {
+    public void snapshot() {
 
     }
 
     /* Changes the backing file of an image */
-    public static void rebase() {
+    public void rebase() {
 
     }
 
     /* Resize a disk image */
-    public static void resize(String filename, long size) {
+    public void resize(String filename, long size) {
         String newSize = null;
         if (size > 0) {
             newSize = "+" + size;

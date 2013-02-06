@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.cloudstack.utils.qemu.QemuImg;
 import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
+import org.apache.cloudstack.utils.qemu.QemuImgFile;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.Secret;
@@ -594,9 +596,10 @@ public class LibvirtStorageAdaptor implements StorageAdaptor {
                         + template.getFormat() + " -b  " + template.getPath() + " "
                         + disk.getPath());
             } else if (format == PhysicalDiskFormat.RAW) {
-                Script.runSimpleBashScript("qemu-img convert -f "
-                                        + template.getFormat() + " -O raw " + template.getPath()
-                                        + " " + disk.getPath());
+                QemuImgFile sourceFile = new QemuImgFile(template.getPath(), template.getFormat());
+                QemuImgFile destFile = new QemuImgFile(disk.getPath(), PhysicalDiskFormat.RAW);
+                QemuImg qemu = new QemuImg();
+                qemu.convert(sourceFile, destFile);
             }
         } else {
             disk = new KVMPhysicalDisk(destPool.getSourceDir() + "/" + newUuid, newUuid, destPool);
