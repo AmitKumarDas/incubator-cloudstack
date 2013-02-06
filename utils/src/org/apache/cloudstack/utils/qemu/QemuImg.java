@@ -14,7 +14,7 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
-package org.apache.cloudstack.utils;
+package org.apache.cloudstack.utils.qemu;
 
 import com.cloud.utils.script.Script;
 

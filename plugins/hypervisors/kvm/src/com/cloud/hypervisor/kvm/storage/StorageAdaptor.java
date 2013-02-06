@@ -18,7 +18,7 @@ package com.cloud.hypervisor.kvm.storage;
 
 import java.util.List;
 
-import org.apache.cloudstack.utils.QemuImg.PhysicalDiskFormat;
+import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import com.cloud.storage.Storage.StoragePoolType;
 
 public interface StorageAdaptor {

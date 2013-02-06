@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.cloudstack.utils.QemuImg.PhysicalDiskFormat;
+import org.apache.cloudstack.utils.qemu.QemuImg.PhysicalDiskFormat;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.Secret;
