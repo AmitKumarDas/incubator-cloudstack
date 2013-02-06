@@ -16,10 +16,15 @@
 // under the License.
 package org.apache.cloudstack.utils;
 
+import com.cloud.utils.script.Script;
+
 import java.util.List;
 import java.util.Map;
 
 public class QemuImg {
+
+    /* The qemu-img binary. We expect this to be in $PATH */
+    public static String _qemuImgPath = "qemu-img";
 
     /* Shouldn't we have KVMPhysicalDisk and LibvirtVMDef read this? */
     public static enum PhysicalDiskFormat {
@@ -44,7 +49,12 @@ public class QemuImg {
 
     /* Create a new disk image */
     public static void create(String filename, long size, PhysicalDiskFormat format, List<Map<String, String>> options) {
-
+        Script s = new Script(_qemuImgPath);
+        s.add("create");
+        s.add("-f");
+        s.add(format.toString());
+        s.add(filename);
+        s.add(Long.toString(size));
     }
 
     public static void create(String filename, long size, PhysicalDiskFormat format) {
@@ -93,5 +103,4 @@ public class QemuImg {
             newSize = "-" + size;
         }
     }
-
 }
