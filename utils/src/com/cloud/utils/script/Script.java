@@ -487,10 +487,4 @@ public class Script implements Callable<String> {
             return result.trim();
     }
 
-    public static void main(String[] args) {
-        String path = findScript(".", "try.sh");
-        Script script = new Script(path, 5000, s_logger);
-        script.execute();
-        System.exit(1);
-    }
 }
