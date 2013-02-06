@@ -55,6 +55,7 @@ import javax.ejb.Local;
 import javax.naming.ConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.apache.cloudstack.utils.QemuImg.PhysicalDiskFormat;
 import org.libvirt.Connect;
 import org.libvirt.Domain;
 import org.libvirt.DomainInfo;
@@ -188,7 +189,6 @@ import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.InterfaceDef.hostNicType;
 import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.SerialDef;
 import com.cloud.hypervisor.kvm.resource.LibvirtVMDef.TermPolicy;
 import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk.PhysicalDiskFormat;
 import com.cloud.hypervisor.kvm.storage.KVMStoragePool;
 import com.cloud.hypervisor.kvm.storage.KVMStoragePoolManager;
 import com.cloud.network.Networks.BroadcastDomainType;
@@ -1400,12 +1400,12 @@ ServerResource {
         StoragePoolType poolType = pool.getType();
         PhysicalDiskFormat volFormat = vol.getFormat();
          
-        if(pool.getType() == StoragePoolType.CLVM && volFormat == KVMPhysicalDisk.PhysicalDiskFormat.RAW) {
+        if(pool.getType() == StoragePoolType.CLVM && volFormat == PhysicalDiskFormat.RAW) {
             return "CLVM";
         } else if ((poolType == StoragePoolType.NetworkFilesystem
                   || poolType == StoragePoolType.SharedMountPoint
                   || poolType == StoragePoolType.Filesystem)
-                  && volFormat == KVMPhysicalDisk.PhysicalDiskFormat.QCOW2 ) {
+                  && volFormat == PhysicalDiskFormat.QCOW2 ) {
             return "QCOW2";
         }
         return null;
@@ -3255,7 +3255,7 @@ ServerResource {
 
         if (!foundDisk) {
             s_logger.debug("generating new patch disk for " + vmName + " since none was found");
-            KVMPhysicalDisk disk = pool.createPhysicalDisk(patchName, KVMPhysicalDisk.PhysicalDiskFormat.RAW,
+            KVMPhysicalDisk disk = pool.createPhysicalDisk(patchName, PhysicalDiskFormat.RAW,
                     10L * 1024 * 1024);
         } else {
             s_logger.debug("found existing patch disk at " + patchDiskPath + " using it for " + vmName);

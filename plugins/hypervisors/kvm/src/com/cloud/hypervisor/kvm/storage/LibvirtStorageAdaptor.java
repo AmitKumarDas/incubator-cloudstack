@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 import org.apache.log4j.Logger;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.cloudstack.utils.QemuImg.PhysicalDiskFormat;
 import org.libvirt.Connect;
 import org.libvirt.LibvirtException;
 import org.libvirt.Secret;
@@ -43,7 +44,6 @@ import com.cloud.hypervisor.kvm.resource.LibvirtStoragePoolDef.poolType;
 import com.cloud.hypervisor.kvm.resource.LibvirtStoragePoolDef.authType;
 import com.cloud.hypervisor.kvm.resource.LibvirtStorageVolumeDef.volFormat;
 import com.cloud.hypervisor.kvm.resource.LibvirtStorageVolumeXMLParser;
-import com.cloud.hypervisor.kvm.storage.KVMPhysicalDisk.PhysicalDiskFormat;
 import com.cloud.exception.InternalErrorException;
 import com.cloud.storage.Storage.StoragePoolType;
 import com.cloud.storage.StorageLayer;
@@ -411,11 +411,11 @@ public class LibvirtStorageAdaptor implements StorageAdaptor {
             if (voldef.getFormat() == null) {
                 disk.setFormat(pool.getDefaultFormat());
             } else if (pool.getType() == StoragePoolType.RBD) {
-                disk.setFormat(KVMPhysicalDisk.PhysicalDiskFormat.RAW);
+                disk.setFormat(PhysicalDiskFormat.RAW);
             } else if (voldef.getFormat() == LibvirtStorageVolumeDef.volFormat.QCOW2) {
-                disk.setFormat(KVMPhysicalDisk.PhysicalDiskFormat.QCOW2);
+                disk.setFormat(PhysicalDiskFormat.QCOW2);
             } else if (voldef.getFormat() == LibvirtStorageVolumeDef.volFormat.RAW) {
-                disk.setFormat(KVMPhysicalDisk.PhysicalDiskFormat.RAW);
+                disk.setFormat(PhysicalDiskFormat.RAW);
             }
             return disk;
         } catch (LibvirtException e) {
